@@ -5,6 +5,7 @@ import * as path from "@std/path";
 import { Port } from "../lib/utils/index.ts";
 import listInsights from "./operations/list-insights.ts";
 import lookupInsight from "./operations/lookup-insight.ts";
+import { createTableStatement } from "./tables/insights.ts"
 
 console.log("Loading configuration");
 
@@ -18,6 +19,14 @@ console.log(`Opening SQLite database at ${dbFilePath}`);
 
 await Deno.mkdir(path.dirname(dbFilePath), { recursive: true });
 const db = new Database(dbFilePath);
+
+try {
+  // Pass the imported raw SQL string directly into the database execution engine
+  db.sql([createTableStatement] as any)
+  console.log("🎉 SUCCESS: Insights table verified and ready!")
+} catch (error) {
+  console.error("❌ Failed to verify database structure:", error)
+}
 
 console.log("Initialising server");
 
