@@ -14,7 +14,7 @@ export const withDB = <R>(fn: (fixture: Fixture) => R): R => {
   const db = new Database(":memory:");
 
   beforeAll(() => {
-    db.exec(insightsTable.createTable);
+    db.exec(insightsTable.createTableStatement);
   });
 
   afterAll(() => db.close());
