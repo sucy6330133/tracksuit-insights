@@ -19,7 +19,7 @@ export default (input: Input): Insight => {
     brand: input.brand,
     createdAt: createdAtStr,
     text: input.text,
-  }); 
+  });
 
   const fullSqlWithReturning = `${rawSqlString} RETURNING *`;
   console.log(`Executing SQL: ${fullSqlWithReturning}`);
@@ -32,9 +32,9 @@ export default (input: Input): Insight => {
   if (!row) {
     throw new Error("Failed to insert insight row into database.");
   }
-  
+
   const result = { ...row, createdAt: new Date(row.createdAt) };
   console.log("Insight added successfully:", result);
-  
+
   return result;
 };

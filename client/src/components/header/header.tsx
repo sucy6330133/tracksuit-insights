@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { Button } from "../button/button.tsx";
-import styles from "./header.module.css";
 import { AddInsight } from "../add-insight/add-insight.tsx";
+import styles from "./header.module.css";
 
 export const HEADER_TEXT = "Suit Tracker Insights";
 
-export const Header = () => {
+type HeaderProps = {
+  refreshInsights?: () => void;
+};
+
+export const Header = ({ refreshInsights }: HeaderProps) => {
   const [addInsightOpen, setAddInsightOpen] = useState(false);
+
+  const handleAddInsightClose = (created: boolean) => {
+    setAddInsightOpen(false);
+
+    if (refreshInsights && created) {
+      refreshInsights();
+    }
+  };
 
   return (
     <>
@@ -22,7 +34,7 @@ export const Header = () => {
       </header>
       <AddInsight
         open={addInsightOpen}
-        onClose={() => setAddInsightOpen(false)}
+        onClose={() => handleAddInsightClose(false)}
       />
     </>
   );

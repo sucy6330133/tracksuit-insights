@@ -5,7 +5,7 @@ export const createTableStatement = `
     createdAt TEXT NOT NULL,
     text TEXT NOT NULL
   )
-`
+`;
 
 export type Row = {
   id: number;
@@ -21,7 +21,7 @@ export type Insert = {
 };
 
 export const insertStatement = (item: Insert) =>
-  `INSERT INTO insights (brand, createdAt, text) VALUES (${item.brand}, '${item.createdAt}', '${item.text}')`
+  `INSERT INTO insights (brand, createdAt, text) VALUES (${item.brand}, '${item.createdAt}', '${item.text}')`;
 
 export const deleteStatement = (id: number) =>
-  `DELETE FROM insights WHERE id = ${id}`
+  `DELETE FROM insights WHERE id = ${id}`;

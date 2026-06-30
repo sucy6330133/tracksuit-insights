@@ -1,20 +1,33 @@
 import { useEffect, useState } from "react";
 import { Header } from "../components/header/header.tsx";
 import { Insights } from "../components/insights/insights.tsx";
-import styles from "./app.module.css";
 import type { Insight } from "../schemas/insight.ts";
+import { fetchInsightsService } from "../services/insightsService.ts";
+import styles from "./app.module.css";
 
 export const App = () => {
-  const [insights, setInsights] = useState<Insight>([]);
+  const [insights, setInsights] = useState<Insight[]>([]);
+  const loadInsights = async () => {
+    try {
+      const allInsights = await fetchInsightsService();
+      setInsights(allInsights);
+    } catch (error) {
+      console.error("Failed to load insights:", error);
+    }
+  };
 
   useEffect(() => {
-    fetch(`/api/insights`).then((res) => setInsights(res.json()));
+    loadInsights();
   }, []);
 
   return (
     <main className={styles.main}>
-      <Header />
-      <Insights className={styles.insights} insights={insights} />
+      <Header refreshInsights={loadInsights} />
+      <Insights
+        className={styles.insights}
+        insights={insights}
+        refreshInsights={loadInsights}
+      />
     </main>
   );
 };
