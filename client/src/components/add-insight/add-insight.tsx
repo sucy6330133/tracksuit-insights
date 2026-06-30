@@ -1,29 +1,20 @@
 import { useEffect, useState } from "react";
-import { BRANDS } from "../../lib/consts.ts";
+import { BRANDS, InsightDefaults } from "../../lib/consts.ts";
 import { Button } from "../button/button.tsx";
 import { Modal, type ModalProps } from "../modal/modal.tsx";
 import { createInsightService } from "../../services/insightsService.ts";
 import styles from "./add-insight.module.css";
 
-type AddInsightProps = ModalProps & {
-  onClose: (created: boolean) => void;
-};
-
-const Defaults = {
-  brand: BRANDS[0].id,
-  content: "",
-};
-
-export const AddInsight = (props: AddInsightProps) => {
-  const [brand, setBrand] = useState(BRANDS[0].id);
-  const [content, setContent] = useState("");
+export const AddInsight = (props: ModalProps) => {
+  const [brand, setBrand] = useState(InsightDefaults.brand);
+  const [content, setContent] = useState(InsightDefaults.content);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (props.open) {
       setError(null);
-      setBrand(Defaults.brand);
-      setContent(Defaults.content);
+      setBrand(InsightDefaults.brand);
+      setContent(InsightDefaults.content);
     }
   }, [props.open]);
 
@@ -37,7 +28,7 @@ export const AddInsight = (props: AddInsightProps) => {
 
     console.log("add insight", { brand, content });
     await createInsightService(brand, content);
-    props.onClose(true);
+    props.onClose();
   };
 
   const hanleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -71,9 +62,8 @@ export const AddInsight = (props: AddInsightProps) => {
         <label className={styles.field}>
           Insight
           <textarea
-            className={`${styles["field-input"]} ${
-              error ? styles["field-input-error"] : ""
-            }`}
+            className={`${styles["field-input"]} ${error ? styles["field-input-error"] : ""
+              }`}
             rows={5}
             placeholder="Something insightful..."
             value={content}

@@ -34,7 +34,7 @@ export const Header = ({ refreshInsights }: HeaderProps) => {
       </header>
       <AddInsight
         open={addInsightOpen}
-        onClose={() => handleAddInsightClose(false)}
+        onClose={() => handleAddInsightClose(true)}
       />
     </>
   );

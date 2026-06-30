@@ -6,3 +6,8 @@ export const BRANDS = [
   { id: 5, name: "Brand 5" },
   { id: 6, name: "Brand 6" },
 ];
+
+export const InsightDefaults = {
+  brand: BRANDS[0].id,
+  content: "",
+};
